@@ -1,0 +1,6 @@
+---
+- hosts: 52.58.138.213
+  become: yes
+  roles:
+  - apache
+

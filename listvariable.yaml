@@ -1,0 +1,16 @@
+---
+- hosts: linux
+  vars:
+    teams:
+      - csk
+      - rcb
+      - mi
+      - srh
+  tasks:
+  - name: Create file
+    lineinfile:
+      state: present
+      dest: /home/ansible/testfile
+      line: "- {{ item }}"
+    with_items:
+      - "{{ teams }}"

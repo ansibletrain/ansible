@@ -1,0 +1,14 @@
+---
+- hosts: linux
+  vars:
+    teams:
+     - thor
+     - hulks
+     - loki
+     - asgardians
+  tasks:
+  - name: print list
+    debug:
+      msg: "{{ item }}"
+    with_items:
+      - "{{ teams }}"

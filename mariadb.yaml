@@ -1,5 +1,5 @@
 ---
-- hosts: 3.123.153.198 
+- hosts: 3.120.108.70
   become: yes
   tasks:
   - name: install mariadb server

@@ -15,7 +15,7 @@ user name : centos
 sudo su
 yum update -y
 yum install epel-release -y
-hostnamectl set-hostname controller.spglobaltraining.com
+hostnamectl set-hostname controller.training.com
 ssh-keygen
 cat /root/.ssh/id_rsa.pub
 connect to centos node:  ssh ansible@52.59.124.103
@@ -167,7 +167,7 @@ Centos Instance :
 user name : centos
 sudo su
 yum update -y
-hostnamectl set-hostname centos.spglobaltraining.com
+hostnamectl set-hostname centos.training.com
 exec bash
 useradd ansible
 go to home directory "cd ~"
@@ -186,7 +186,7 @@ Ubuntu Instance :
 user name : ubuntu
 sudo su
 apt-get update
-hostnamectl set-hostname ubuntu.spglobaltraining.com
+hostnamectl set-hostname ubuntu.training.com
 exec bash
 useradd -m ansible
 su ansible

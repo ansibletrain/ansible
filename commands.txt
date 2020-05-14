@@ -1,0 +1,248 @@
+ansible linux -m ping
+ansible win -m win_ping
+ssh ansible@52.59.124.103
+
+
+cat /root/.ssh/id_rsa
+
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker images
+docker rmi --force <image id>
+
+Controller Instance IP: 3.124.6.191
+user name : centos
+sudo su
+yum update -y
+yum install epel-release -y
+hostnamectl set-hostname controller.spglobaltraining.com
+ssh-keygen
+cat /root/.ssh/id_rsa.pub
+connect to centos node:  ssh ansible@52.59.124.103
+vi /etc/ansible/hosts
+add node IP
+52.59.124.103 ansible_ssh_user=ansible
+
+ansible all -m ping
+ansible all:\!win -m ping
+
+vi /etc/ansible/ansible.cfg
+change the line
+remote_user = ansible
+ansible all -a "uptime"
+ansible all -a "hostname"
+ansible all -m setup
+on controller to get key "cat /root/.ssh/id_rsa.pub"
+connect to Ubunto: ssh ansible@18.156.163.30
+ansible all -b -a reboot
+
+yum install python-pip
+pip install --upgrade pip
+pip install pywinrm --ignore-installed
+
+add the lines in the host file
+vi /etc/ansible/hosts
+[win]
+<windows instance ip>
+[win:vars]
+ansible_user=Administrator
+ansible_password=O(icI(@ppA6VGHrz.l((6tMzHW6kuiNV
+ansible_connection=winrm
+ansible_winrm_server_cert_validation=ignore
+ansible win -m win_ping
+ansible win -vvv -m win_shell -a "date"
+ansible all -vvv -a "uptime"
+
+cd ~
+pip install virtualenv
+virtualenv <name>
+virtualenv venv
+source venv/bin/activate
+yum install git
+git clone https://github.com/sathishbob/devops-starter.git
+cd devops-starter/
+pip install -r ansible/requirements.txt
+export AWS_ACCESS_KEY_ID=AKIA3SXFH66R25D6TFMM
+export AWS_SECRET_ACCESS_KEY=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
+export EC2_INI_PATH=/root/devops-starter/ansible/inventory/ec2.ini (edited) 
+export ANSIBLE_INVENTORY=/root/devops-starter/ansible/inventory/ec2.py
+chmod +x /root/devops-starter/ansible/inventory/ec2.py
+
+/root/devops-starter/ansible/inventory/ec2.py
+ansible tag_Name_muthu_ubuntunode -m ping
+ansible tag_Name_muthu* -m ping
+
+exit
+sudo su
+cd ~
+vi filecreate.yaml
+ansible-playbook filecreate.yaml
+
+vi winfolder.yaml
+ansible-playbook winfolder.yaml
+
+vi index.html.j2
+
+ansible-playbook mariadb.yaml --tags "start"
+ansible-playbook mariadb.yaml --skip-tags "start"
+ansible-playbook mariadb.yaml --skip-tags "start,install"
+ansible-playbook mariadb.yaml --tags "all"
+ansible-playbook mariadb.yaml --tags "all" --skip-tags "start"
+
+ansible-playbook useradd.yaml --extra-vars "username=test shell=/bin/sh"
+ansible-playbook useradd.yaml --extra-vars "username=test" --extra-vars "shell=/bin/bash"
+
+to create/edit/view yaml in vault and change password
+ansible-vault create sensitive.yaml
+ansible-vault edit sensitive.yaml
+ansible-vault view sensitive.yaml
+ansible-vault rekey sensitive.yaml
+
+# decrypt or encrypt the file
+ansible-vault decrypt sensitive.yaml
+ansible-vault encrypt sensitive.yaml
+
+ansible-playbook sensitive.yaml --ask-vault-pass
+
+ansible-galaxy install geerlingguy.apache
+ansible-galaxy install geerlingguy.apache -p /etc/ansible/roles/
+ls -l /etc/ansible/roles/
+ansible-galaxy init /etc/ansible/roles/apache --offline
+
+# install ansible tower
+yum install -y epel-release
+yum groups install "Development Tools"
+yum install -y jq python2-pip yum-utils device-mapper-persistent-data lvm2
+yum update
+
+#install docker
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum -y install docker-ce
+systemctl enable docker && systemctl start docker
+LATEST_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r '.tag_name')
+curl -L "https://github.com/docker/compose/releases/download/$LATEST_VERSION/docker-compose-$(uname -s)-$(uname -m)" > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+yum install python-devel
+pip install --upgrade pip
+pip install ansible
+pip install wheel
+pip install docker-compose --ignore-installed
+cd ~
+curl -L -o ansible-awx-11.0.0.tar.gz https://github.com/ansible/awx/archive/11.0.0.tar.gz
+tar xvfz ansible-awx-11.0.0.tar.gz
+rm -f ansible-awx-11.0.0.tar.gz
+
+cd awx-11.0.0/
+sed -i "s|^dockerhub_base=ansible|#dockerhub_base=ansible|g" installer/inventory
+mkdir -p /opt/awx-psql-data
+sed -i "s|^postgres_data_dir.*|postgres_data_dir=/opt/awx-psql-data|g" installer/inventory
+
+mkdir -p /etc/awx-ssl/
+openssl req -subj '/CN=secops.tech/O=Secops Tech/C=TR' -new -newkey rsa:2048 -sha256 -days 1365 -nodes -x509 -keyout /etc/awx-ssl/awx.key -out /etc/awx-ssl//awx.crt
+
+cat /etc/awx-ssl/awx.key /etc/awx-ssl/awx.crt > /etc/awx-ssl/awx-bundled-key.crt
+sed -i -E "s|^#([[:space:]]?)ssl_certificate=|ssl_certificate=/etc/awx-ssl/awx-bundled-key.crt|g" installer/inventory
+
+#change logo
+cd ~
+curl -L -o awx-logos.tar.gz https://github.com/ansible/awx-logos/archive/master.tar.gz
+tar xvfz awx-logos.tar.gz
+mv awx-logos-master awx-logos
+rm -f *awx*.tar.gz
+cd awx-11.0.0/
+sed -i -E "s|^#([[:space:]]?)awx_official=false|awx_official=true|g" installer/inventory
+
+# change user & password
+sed -i "s|^admin_user=.*|admin_user=awx-admin|g" installer/inventory
+sed -i "s|^admin_password=.*|admin_password=CHANGE_ME|g" installer/inventory
+
+cd installer/
+ansible-playbook -i inventory install.yml
+
+
+----------------------------------------------------------------------
+
+Centos Instance : 
+user name : centos
+sudo su
+yum update -y
+hostnamectl set-hostname centos.spglobaltraining.com
+exec bash
+useradd ansible
+go to home directory "cd ~"
+mkdir .ssh
+vi .ssh/authorized_keys
+copy the pub key from controller
+To save, Esc key :wq!
+chmod -R 700 .ssh
+sudo su
+cat /
+visudo
+ansible ALL=(ALL)       NOPASSWD: ALL
+----------------------------------------------------------------------
+
+Ubuntu Instance : 
+user name : ubuntu
+sudo su
+apt-get update
+hostnamectl set-hostname ubuntu.spglobaltraining.com
+exec bash
+useradd -m ansible
+su ansible
+go to home directory "cd ~"
+mkdir .ssh
+vi .ssh/authorized_keys
+copy the pub key from controller
+To save, Esc key :wq!
+chmod -R 700 .ssh
+visudo
+ctrl + o then enter
+ctrl + X
+
+------------------------
+Window instance : 
+Public DNS	ec2-3-124-214-168.eu-central-1.compute.amazonaws.com
+User name : .\Administrator
+Password : 
+Login to the server
+open Windows power shell & execute below commands
+
+$url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
+$file = "$env:temp\ConfigureRemotingForAnsible.ps1"
+(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
+powershell.exe -ExecutionPolicy ByPass -File $file
+
+winrm enumerate winrm/config/Listener
+
+--------------------------------
+https://github.com/sathishbob/devops-starter
+
+
+- run it in powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+
+
+===================
+#install test environment
+docker images
+docker rmi --force <image id>
+yum update -y
+yum install -y epel-release
+yum groups install "Development Tools"
+yum install -y python-devel python2-pip docker-ce ansible
+systemctl start docker
+systemctl enable docker
+pip install --upgrade pip
+pip install -U setuptools
+pip install wheel
+pip install pytest
+pip install pytest-xdist
+pip install testinfra
+pip install molecule docker --ignore-installed
+molecule init role --driver-name docker --verifier-name testinfra ansible-role-redis
+molecule test
+molecule converge
+molecule verify
+molecule destroy

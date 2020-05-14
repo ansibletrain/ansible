@@ -10,7 +10,8 @@ docker rm $(docker ps -a -q)
 docker images
 docker rmi --force <image id>
 
-Controller Instance IP: 3.124.6.191
+
+
 user name : centos
 sudo su
 yum update -y
@@ -18,7 +19,7 @@ yum install epel-release -y
 hostnamectl set-hostname controller.training.com
 ssh-keygen
 cat /root/.ssh/id_rsa.pub
-connect to centos node:  ssh ansible@52.59.124.103
+connect to centos node:  ssh ansible@XXX
 vi /etc/ansible/hosts
 add node IP
 52.59.124.103 ansible_ssh_user=ansible
@@ -33,7 +34,7 @@ ansible all -a "uptime"
 ansible all -a "hostname"
 ansible all -m setup
 on controller to get key "cat /root/.ssh/id_rsa.pub"
-connect to Ubunto: ssh ansible@18.156.163.30
+connect to Ubunto: ssh ansible@XXX
 ansible all -b -a reboot
 
 yum install python-pip
@@ -46,7 +47,7 @@ vi /etc/ansible/hosts
 <windows instance ip>
 [win:vars]
 ansible_user=Administrator
-ansible_password=O(icI(@ppA6VGHrz.l((6tMzHW6kuiNV
+ansible_password=XXX
 ansible_connection=winrm
 ansible_winrm_server_cert_validation=ignore
 ansible win -m win_ping
@@ -62,8 +63,8 @@ yum install git
 git clone https://github.com/sathishbob/devops-starter.git
 cd devops-starter/
 pip install -r ansible/requirements.txt
-export AWS_ACCESS_KEY_ID=AKIA3SXFH66R25D6TFMM
-export AWS_SECRET_ACCESS_KEY=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
+export AWS_ACCESS_KEY_ID=XXX
+export AWS_SECRET_ACCESS_KEY=XXX
 export EC2_INI_PATH=/root/devops-starter/ansible/inventory/ec2.ini (edited) 
 export ANSIBLE_INVENTORY=/root/devops-starter/ansible/inventory/ec2.py
 chmod +x /root/devops-starter/ansible/inventory/ec2.py
@@ -202,7 +203,7 @@ ctrl + X
 
 ------------------------
 Window instance : 
-Public DNS	ec2-3-124-214-168.eu-central-1.compute.amazonaws.com
+Public DNS	XXX
 User name : .\Administrator
 Password : 
 Login to the server
